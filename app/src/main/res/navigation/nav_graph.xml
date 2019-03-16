@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/nav_graph"
+            app:startDestination="@id/searchCarFragment">
+
+    <fragment
+            android:id="@+id/searchCarFragment"
+            android:name="com.juliensacre.findcar.ui.searchcar.SearchCarFragment"
+            android:label="search_car_fragment"
+            tools:layout="@layout/search_car_fragment"/>
+</navigation>

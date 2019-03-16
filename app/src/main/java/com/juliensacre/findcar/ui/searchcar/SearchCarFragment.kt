@@ -1,28 +1,21 @@
 package com.juliensacre.findcar.ui.searchcar
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.juliensacre.findcar.R
-import com.juliensacre.findcar.data.remote.CarAPIService
-import com.juliensacre.findcar.data.remote.CarDataSourceImpl
-import com.juliensacre.findcar.data.remote.ConnectivityInterceptorImpl
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import com.juliensacre.findcar.ui.base.ScopedFragment
+import kotlinx.android.synthetic.main.search_car_fragment.*
 import kotlinx.coroutines.launch
+import org.koin.android.viewmodel.ext.android.viewModel
 
-class SearchCarFragment : Fragment() {
+class SearchCarFragment : ScopedFragment() {
 
-    companion object {
-        fun newInstance() = SearchCarFragment()
-    }
-
-    private lateinit var viewModel: SearchCarViewModel
+    //inject
+    //private val viewModelFactory: SearchCarViewModelFactory by inject()
+    private val viewModel : SearchCarViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,9 +26,8 @@ class SearchCarFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(SearchCarViewModel::class.java)
-        // TODO: Use the ViewModel
-
+        bindUi()
+/*
         val apiService = CarAPIService(ConnectivityInterceptorImpl(this.context!!))
         val carDataSource = CarDataSourceImpl(apiService)
 
@@ -44,7 +36,16 @@ class SearchCarFragment : Fragment() {
         GlobalScope.launch(Dispatchers.Main) {
             carDataSource.fetchCarList()
         }
-
+*/
     }
 
+    //Just use launch because my fragment inheriting of scopedfragment
+    // and it is itself an instance of coroutine
+    private fun bindUi() = launch{
+        val car = viewModel.cars.await()
+        car.observe(this@SearchCarFragment, Observer {
+            //for the first launch where the bd is empty and return null
+            if(it == null) return@Observer
+            message.text = it.toString() })
+    }
 }

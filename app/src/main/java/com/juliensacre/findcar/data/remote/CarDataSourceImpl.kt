@@ -14,7 +14,7 @@ class CarDataSourceImpl(
     override val downloadedCars: LiveData<List<Car>>
         get() = _downloadedCars // automatic cast on LiveData
     override suspend fun fetchCarList() {
-
+        //TODO modify state load for onload and after loaded
         try {
             val fetchedCarList = carAPIService.getCars().await()
             _downloadedCars.postValue(fetchedCarList)

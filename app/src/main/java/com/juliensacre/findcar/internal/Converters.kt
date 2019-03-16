@@ -6,11 +6,13 @@ class Converters {
     companion object {
         @TypeConverter
         @JvmStatic
-        fun listToString(list: List<String>) : String {
-            var string = ""
-            for (item in list)
-                string += "$item,"
+        fun listToString(list: List<String>?) : String {
 
+            var string = ""
+            if(list!=null) {
+                for (item in list)
+                    string += "$item,"
+            }
             return string
         }
 

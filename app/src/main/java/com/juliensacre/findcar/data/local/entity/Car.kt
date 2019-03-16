@@ -7,12 +7,12 @@ import com.juliensacre.findcar.internal.Converters
 
 @Entity(tableName = "car")
 data class Car(
-    @PrimaryKey
-    val id : Int,
     val make: String,
     val model: String,
     val year: Int,
+    @PrimaryKey //not a good idea, but the best solution now
     val picture: String,
     @TypeConverters(Converters::class)
     val equipments: List<String>
+
 )

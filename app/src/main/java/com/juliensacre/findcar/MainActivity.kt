@@ -2,18 +2,20 @@ package com.juliensacre.findcar
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.juliensacre.findcar.ui.searchcar.SearchCarFragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import kotlinx.android.synthetic.main.main_activity.*
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, SearchCarFragment.newInstance())
-                .commitNow()
-        }
+
+        setSupportActionBar(toolbar)
+
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment)
 
 
     }

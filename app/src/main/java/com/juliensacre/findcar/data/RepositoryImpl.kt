@@ -24,6 +24,7 @@ class RepositoryImpl(
     override suspend fun getCars(): LiveData<List<Car>> {
         //use withContext because is return a result, GolbalScope doesn't
         return withContext(Dispatchers.IO){
+            initCarData()
             return@withContext carDao.getCars()
         }
     }
