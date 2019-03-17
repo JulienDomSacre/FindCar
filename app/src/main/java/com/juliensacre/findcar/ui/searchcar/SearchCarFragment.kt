@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.juliensacre.findcar.R
 import com.juliensacre.findcar.data.local.entity.Car
@@ -19,7 +19,6 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class SearchCarFragment : ScopedFragment() {
 
     //inject
-    //private val viewModelFactory: SearchCarViewModelFactory by inject()
     private val viewModel : SearchCarViewModel by viewModel()
 
     override fun onCreateView(
@@ -39,7 +38,7 @@ class SearchCarFragment : ScopedFragment() {
     private fun bindUi() = launch{
         val car = viewModel.cars.await()
         car.observe(this@SearchCarFragment, Observer {
-            //for the first launch where the bd is empty and return null
+            //for the first launch where the db is empty and return null
             if(it == null) return@Observer
 
             group_loading.visibility = View.GONE
@@ -48,7 +47,7 @@ class SearchCarFragment : ScopedFragment() {
     }
 
     /**
-     * the adapter want CarItem, this fonction extension change the list of Car to a list of CarItem
+     * the adapter want CarItem, this function extension change the list of Car to a list of CarItem
      */
     private fun List<Car>.toCarItems() : List<CarItem>{
         return this.map {
@@ -68,9 +67,13 @@ class SearchCarFragment : ScopedFragment() {
 
         groupAdapter.setOnItemClickListener { item, view ->
             (item as? CarItem)?.let {
-                //showCarDetail(it.carEntry, view)
-                Toast.makeText(this@SearchCarFragment.context,"${item.carEntry.model} are clicked",Toast.LENGTH_SHORT).show()
+                showCarDetail(it.carEntry, view)
             }
         }
+    }
+
+    private fun showCarDetail(car: Car, view : View){
+        val actionDetail = SearchCarFragmentDirections.actionDetail(car)
+        Navigation.findNavController(view).navigate(actionDetail)
     }
 }

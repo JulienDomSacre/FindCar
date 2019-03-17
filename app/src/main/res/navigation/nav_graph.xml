@@ -12,7 +12,8 @@
             tools:layout="@layout/fragment_search_car">
         <action
                 android:id="@+id/action_detail"
-                app:destination="@id/detailCarFragment"/>
+                app:destination="@id/detailCarFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"/>
     </fragment>
     <fragment
             android:id="@+id/accountFragment"

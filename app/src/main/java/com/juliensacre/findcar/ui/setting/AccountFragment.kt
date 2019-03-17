@@ -17,4 +17,6 @@ class AccountFragment : PreferenceFragmentCompat() {
         (activity as? AppCompatActivity)?.supportActionBar?.subtitle = null
     }
 
+
+
 }

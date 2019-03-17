@@ -18,7 +18,5 @@ val appModule = module {
     single<ConnectivityInterceptor> { ConnectivityInterceptorImpl(androidContext()) }
     single<CarDataSource> { CarDataSourceImpl(get()) }
 
-    //factory { SearchCarViewModelFactory(get()) }
-
     viewModel { SearchCarViewModel(get()) }
 }

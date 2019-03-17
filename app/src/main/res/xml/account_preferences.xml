@@ -1,18 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen
+                  xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
-            android:title="My Account">
-
-        <Preference
-                android:title="Username"
-                android:summary="Your name"
-                android:key="username" />
+            app:title="Your personal information">
 
         <EditTextPreference
-                android:title="Email"
-                android:summary="Your email"
-                android:key="email" />
+                app:title="Username"
+                app:defaultValue="Your name"
+                app:useSimpleSummaryProvider="true"
+                app:key="username" />
 
+        <EditTextPreference
+                app:title="Email"
+                app:defaultValue="Your email"
+                app:useSimpleSummaryProvider = "true"
+                app:key="email" />
+
+        <EditTextPreference
+                app:title="Address"
+                app:defaultValue="Your address"
+                app:useSimpleSummaryProvider = "true"
+                app:key="address" />
+
+        <EditTextPreference
+                app:title="Birth date (mm/dd/yy)"
+                app:defaultValue="Your birth date"
+                app:useSimpleSummaryProvider = "true"
+                app:key="birthdate" />
     </PreferenceCategory>
 
-</PreferenceScreen>
+</androidx.preference.PreferenceScreen>
