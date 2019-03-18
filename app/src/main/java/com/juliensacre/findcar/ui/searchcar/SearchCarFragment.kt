@@ -1,9 +1,10 @@
 package com.juliensacre.findcar.ui.searchcar
 
+import android.app.SearchManager
+import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,17 +16,22 @@ import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_search_car.*
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
-class SearchCarFragment : ScopedFragment() {
-
+class SearchCarFragment : ScopedFragment(), SearchView.OnQueryTextListener {
     //inject
     private val viewModel : SearchCarViewModel by viewModel()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         return inflater.inflate(R.layout.fragment_search_car, container, false)
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -75,5 +81,25 @@ class SearchCarFragment : ScopedFragment() {
     private fun showCarDetail(car: Car, view : View){
         val actionDetail = SearchCarFragmentDirections.actionDetail(car)
         Navigation.findNavController(view).navigate(actionDetail)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.search,menu)
+        val searchManager  = activity!!.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searchView = menu.findItem(R.id.menu_search).actionView as SearchView
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(activity!!.componentName))
+        searchView.setIconifiedByDefault(true)
+        searchView.setOnQueryTextListener(this)
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        Timber.d("text submit: $query")
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        Timber.d("text change: $newText")
+        return true
     }
 }
